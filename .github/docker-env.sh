@@ -17,7 +17,7 @@ then
     fi
 elif [[ $GITHUB_REF == refs/pull/* ]]
 then
-    VERSION=pr-$GITHUB_REF
+    VERSION=pr-$GITHUB_EVENT_PATH
 fi
 
 TAGS="${VERSION}"
