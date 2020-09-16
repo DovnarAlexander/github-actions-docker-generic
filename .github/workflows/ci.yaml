@@ -34,6 +34,7 @@ jobs:
         run: .github/docker-env.sh
         env:
           EVENT: ${{ github.event_name }}
+          EVENT_NUMBER: ${{ github.event.number }}
           GITHUB_SHA: ${{ github.sha }}
       - name: Print outputs
         run: echo ${{ steps.info.outputs.tags }}
