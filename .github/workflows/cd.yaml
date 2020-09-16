@@ -1,0 +1,13 @@
+# ---
+
+# name: CD
+
+# on:
+#   push:
+#     branches: master
+
+# jobs:
+#   prepare:
+#     name: Docker tag preparation
+#     runs-on: ubuntu-latest
+#     steps:

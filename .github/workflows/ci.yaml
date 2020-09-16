@@ -26,9 +26,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Kaniko build
-        uses: aevea/action-kaniko@master
+      - name: Build and Push
+        uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          registry: docker.pkg.github.com
+          name: docker.pkg.github.com/dovnaralexander/github-actions-docker-generic/service
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GROUP_TOKEN }}
-          image: kaniko
+          registry: docker.pkg.github.com
+          tags: release-candidate
