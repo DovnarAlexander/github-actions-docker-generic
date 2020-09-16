@@ -4,7 +4,7 @@ name: ci
 
 on:
   schedule:
-    - cron: '0 10 * * *' # everyday at 10am
+    - cron: '0 1 * * *' # everyday at 1 AM
   pull_request:
   push:
     branches: master
@@ -20,7 +20,7 @@ jobs:
         uses: github/super-linter@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_POWERSHELL: false
+          VALIDATE_POWERSHELL: false # To get rid of error
 
   docker:
     runs-on: ubuntu-latest
@@ -34,11 +34,13 @@ jobs:
         env:
           EVENT: ${{ github.event_name }}
           GITHUB_SHA: ${{ github.sha }}
-          
+      - name: Print outputs
+        run: echo ${{ steps.info.outputs }}
+
       - name: Build and Push
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: docker.pkg.github.com/dovnaralexander/github-actions-docker-generic/service
+          name: docker.pkg.github.com/${{ github.repository_owner }}/service
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GROUP_TOKEN }}
           registry: docker.pkg.github.com
