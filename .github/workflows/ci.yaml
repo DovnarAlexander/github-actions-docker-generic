@@ -42,7 +42,7 @@ jobs:
       - name: Build and Push
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: docker.pkg.github.com/${{ github.repository_owner }}/service
+          name: docker.pkg.github.com/${{ github.repository }}/service
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GROUP_TOKEN }}
           registry: docker.pkg.github.com
