@@ -24,6 +24,7 @@ jobs:
         env:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_POWERSHELL: false
 
   docker:
     runs-on: ubuntu-latest
