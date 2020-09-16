@@ -11,4 +11,20 @@ jobs:
     name: Docker tag preparation
     runs-on: ubuntu-latest
     steps:
-      - run: Hello world
+      - name: Login to GitHub Packages Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GROUP_TOKEN }}
+  deploy:
+    name: Deployment to Jelastic
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - name: Run Update
+        run: echo 'deploying the latest release docker'
+      - name: Test deployment
+        run: |
+          echo 'let's try random exit
+          exit $(($RANDOM%2))

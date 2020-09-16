@@ -6,6 +6,8 @@ on:
   schedule:
     - cron: '0 10 * * *' # everyday at 10am
   pull_request:
+  push:
+    branches: master
 
 jobs:
   lint:
@@ -14,6 +16,9 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Get release version
+        id: get_version
+        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
       - name: Lint Code Base
         uses: github/super-linter@v3
         env:
@@ -26,6 +31,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Prepare env vars
+        id: info
+        run: .github/docker-env.sh
       - name: Build and Push
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
@@ -33,4 +41,4 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GROUP_TOKEN }}
           registry: docker.pkg.github.com
-          tags: release-candidate
+          tags: ${{ steps.info.outputs.tags }}
