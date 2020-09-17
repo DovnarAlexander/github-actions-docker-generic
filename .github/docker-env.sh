@@ -13,7 +13,7 @@ then
     VERSION=$(echo "${GITHUB_REF#refs/heads/}" | sed -r 's#/+#-#g')
     if [ "master" == "$VERSION" ]
     then
-        VERSION="${TAG},latest"
+        VERSION="${NEW_TAG},latest"
     fi
 elif [[ $GITHUB_REF == refs/pull/* ]]
 then
