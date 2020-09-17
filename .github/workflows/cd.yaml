@@ -46,11 +46,10 @@ jobs:
           prerelease: false
           draft: false
           release: ${{ github.event.release.name }}
-
   rollback:
     name: Rollback the deployment
     runs-on: ubuntu-latest
-    if: jobs.deploy.status != success
+    if: failed()
     steps:
       - name: Rolling back
         run: echo 'rolling back the latest release docker'
