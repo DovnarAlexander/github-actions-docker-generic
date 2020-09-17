@@ -43,7 +43,7 @@ jobs:
           EVENT: ${{ github.event_name }}
           EVENT_NUMBER: ${{ github.event.number }}
           GITHUB_SHA: ${{ github.sha }}
-          TAG: ${{ steps.create_tag.outputs.new_tag }}
+          NEW_TAG: ${{ steps.create_tag.outputs.new_tag }}
       - name: Build and Push
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
