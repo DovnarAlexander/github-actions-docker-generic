@@ -42,7 +42,7 @@ jobs:
           RELEASE: ${{ github.event.inputs.release }}
           TAG: ${{ github.event.inputs.tag }}
       - name: Set tag to deploy
-        uses: allenevans/set-env@v1.0.0
+        uses: allenevans/set-env
         with:
           CURRENT: ROLLBACK
       - name: Test deployment
@@ -51,7 +51,7 @@ jobs:
           echo 'let's try random exit
           exit $(($RANDOM%2))
       - name: Update release
-        uses: johnwbyrd/update-release@v1
+        uses: johnwbyrd/update-release
         if: github.event_name == 'release'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
