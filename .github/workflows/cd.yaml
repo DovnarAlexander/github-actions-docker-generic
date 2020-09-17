@@ -44,20 +44,29 @@ jobs:
           RELEASE: ${{ github.event.inputs.release }}
           TAG: ${{ github.event.inputs.tag }}
       - name: Set tag to deploy
-        run: export CURRENT=ROLLBACK
+        run: echo '::set-env name=CURRENT::rollback'
       - name: Test deployment
         run: |
           echo "${{ steps.tag.outputs.tag }} deployment"
           echo 'let's try random exit
           exit $(($RANDOM%2))
+
+  release:
+    name: Release update
+    runs-on: ubuntu-latest
+    if: success()
+    needs: deploy
+    steps:
       - name: Update release
         uses: meeDamian/github-release@2.0
         if: github.event_name == 'release'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
+          allow_override: true
           draft: false
           name: ${{ github.event.release.name }}
+
   rollback:
     name: Rollback the deployment
     runs-on: ubuntu-latest
