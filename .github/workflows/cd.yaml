@@ -18,7 +18,7 @@ on:
 
 jobs:
   prepare:
-    name: Logging in to Registry
+    name: Preparation
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Packages Docker Registry
@@ -32,6 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: prepare
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Run Update
         run: echo 'deploying the latest release docker'
       - name: Prepare env vars
