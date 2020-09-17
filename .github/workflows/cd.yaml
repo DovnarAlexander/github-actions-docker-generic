@@ -3,10 +3,18 @@
 name: CD
 
 on:
-  workflow_run:
-    workflows: [CI]
-    branches: [master]
-    types: [success]
+  release:
+    types: [prereleased]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'GitHub Release to deploy'
+        required: false
+        default: ''
+      tag:
+        description: 'Docker Tag to deploy'
+        required: false
+        default: 'latest'
 
 jobs:
   prepare:
@@ -30,3 +38,18 @@ jobs:
         run: |
           echo 'let's try random exit
           exit $(($RANDOM%2))
+      - name: Update release
+        uses: johnwbyrd/update-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+          draft: false
+          release: ${{ github.event.release.name }}
+
+  rollback:
+    name: Rollback the deployment
+    runs-on: ubuntu-latest
+    if: jobs.deploy.status != success
+    steps:
+      - name: Rolling back
+        run: echo 'rolling back the latest release docker'
