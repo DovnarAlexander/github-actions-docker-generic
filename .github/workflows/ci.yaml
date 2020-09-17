@@ -3,11 +3,12 @@
 name: CI
 
 on:
-  schedule:
-    - cron: '0 1 * * *' # everyday at 1 AM
-  pull_request:
   push:
-    branches: master
+  # schedule:
+  #   - cron: '0 1 * * *' # everyday at 1 AM
+  # pull_request:
+  # push:
+  #   branches: master
 
 jobs:
   lint:
@@ -53,6 +54,7 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: docker
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -70,7 +72,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
       - name: Create Release
-        id: create_release
         uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
