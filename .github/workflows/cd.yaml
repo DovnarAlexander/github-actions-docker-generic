@@ -34,23 +34,30 @@ jobs:
     steps:
       - name: Run Update
         run: echo 'deploying the latest release docker'
+      - name: Prepare env vars
+        id: tag
+        run: .github/docker-tag.sh
+        env:
+          AUTO_TAG: ${{ github.event.release.name }}
+          RELEASE: ${{ github.event.inputs.release }}
+          TAG: ${{ github.event.inputs.tag }}
       - name: Set tag to deploy
         uses: allenevans/set-env@v1.0.0
         with:
-          TAG: ${{ join([ ${{ github.event.release.name }}, ${{ github.event.inputs.release }}, ${{ github.event.inputs.tag }} ], "" ) }}
           CURRENT: ROLLBACK
       - name: Test deployment
         run: |
-          echo "$TAG deployment"
+          echo "${{ steps.tag.outputs.tag }} deployment"
           echo 'let's try random exit
           exit $(($RANDOM%2))
       - name: Update release
         uses: johnwbyrd/update-release@v1
+        if: github.event.release.name != ""
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
           draft: false
-          release: ${{ env.TAG }}
+          release: ${{ github.event.release.name }}
   rollback:
     name: Rollback the deployment
     runs-on: ubuntu-latest
