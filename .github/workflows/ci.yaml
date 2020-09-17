@@ -69,7 +69,7 @@ jobs:
       - name: Create Release
         uses: actions/create-release@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GROUP_TOKEN }}
         with:
           tag_name: ${{ steps.create_tag.outputs.new_tag }}
           release_name: Release ${{ steps.create_tag.outputs.new_tag }}
