@@ -3,8 +3,10 @@
 name: CD
 
 on:
-  workflow_success:
-    workflow: ci
+  workflow_run:
+    workflows: [ci]
+    branches: [master]
+    types: [completed]
 
 jobs:
   prepare:
