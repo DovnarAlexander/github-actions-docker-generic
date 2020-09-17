@@ -38,9 +38,6 @@ jobs:
           EVENT_NUMBER: ${{ github.event.number }}
           GITHUB_SHA: ${{ github.sha }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-      - name: Print outputs
-        run: echo ${{ steps.info.outputs.tags }}
-
       - name: Build and Push
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
@@ -61,10 +58,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: changelog
-        uses: scottbrenner/generate-changelog-action@master
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         id: Changelog
-        env:
-          REPO: ${{ github.repository }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Bump version and push tag
         id: create_tag
         uses: anothrNick/github-tag-action@1.17.2
