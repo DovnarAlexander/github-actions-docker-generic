@@ -42,22 +42,20 @@ jobs:
           RELEASE: ${{ github.event.inputs.release }}
           TAG: ${{ github.event.inputs.tag }}
       - name: Set tag to deploy
-        uses: allenevans/set-env
-        with:
-          CURRENT: ROLLBACK
+        run: export CURRENT=ROLLBACK
       - name: Test deployment
         run: |
           echo "${{ steps.tag.outputs.tag }} deployment"
           echo 'let's try random exit
           exit $(($RANDOM%2))
       - name: Update release
-        uses: johnwbyrd/update-release
+        uses: meeDamian/github-release@2.0
         if: github.event_name == 'release'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
           draft: false
-          release: ${{ github.event.release.name }}
+          name: ${{ github.event.release.name }}
   rollback:
     name: Rollback the deployment
     runs-on: ubuntu-latest
