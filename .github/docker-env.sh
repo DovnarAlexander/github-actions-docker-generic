@@ -17,7 +17,7 @@ then
     fi
 elif [[ $GITHUB_REF == refs/pull/* ]]
 then
-    VERSION=$EVENT_NUMBER
+    VERSION="pr-${EVENT_NUMBER},RC"
 fi
 
 TAGS="${VERSION}"
@@ -25,10 +25,10 @@ if [[ $VERSION =~ ^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]
 then
     MINOR=${VERSION%.*}
     MAJOR=${MINOR%.*}
-    TAGS="$TAGS,${MINOR},${MAJOR},RC"
+    TAGS="$TAGS,${MINOR},${MAJOR}"
 elif [ "$EVENT" = "push" ]
 then
-    TAGS="$TAGS,:sha-${GITHUB_SHA::8}"
+    TAGS="$TAGS,sha-${GITHUB_SHA::8}"
 fi
 
 echo ::set-output name=version::"${VERSION}"
