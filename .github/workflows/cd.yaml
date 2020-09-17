@@ -3,18 +3,19 @@
 name: CD
 
 on:
-  release:
-    types: [prereleased]
-  workflow_dispatch:
-    inputs:
-      release:
-        description: 'GitHub Release to deploy'
-        required: false
-        default: ''
-      tag:
-        description: 'Docker Tag to deploy'
-        required: false
-        default: 'latest'
+  push:
+  # release:
+  #   types: [prereleased]
+  # workflow_dispatch:
+  #   inputs:
+  #     release:
+  #       description: 'GitHub Release to deploy'
+  #       required: false
+  #       default: ''
+  #     tag:
+  #       description: 'Docker Tag to deploy'
+  #       required: false
+  #       default: 'latest'
 
 jobs:
   prepare:
@@ -45,11 +46,10 @@ jobs:
           prerelease: false
           draft: false
           release: ${{ github.event.release.name }}
-
   rollback:
     name: Rollback the deployment
     runs-on: ubuntu-latest
-    if: jobs.deploy.status != success
+    if: failure()
     steps:
       - name: Rolling back
         run: echo 'rolling back the latest release docker'
