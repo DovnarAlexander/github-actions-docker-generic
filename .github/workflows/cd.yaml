@@ -62,6 +62,7 @@ jobs:
     name: Rollback the deployment
     runs-on: ubuntu-latest
     if: failure()
+    needs: deploy
     steps:
       - name: Rolling back
         run: echo "rolling back the latest release docker to $CURRENT version!"
