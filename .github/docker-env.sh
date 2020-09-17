@@ -11,7 +11,7 @@ then
 elif [[ $GITHUB_REF == refs/heads/* ]]
 then
     VERSION=$(echo "${GITHUB_REF#refs/heads/}" | sed -r 's#/+#-#g')
-    if [ "$DEFAULT_BRANCH" = "$VERSION" ]
+    if [ "master" == "$VERSION" ]
     then
         VERSION=latest
     fi

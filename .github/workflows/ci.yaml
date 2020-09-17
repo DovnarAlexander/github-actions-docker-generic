@@ -37,7 +37,6 @@ jobs:
           EVENT: ${{ github.event_name }}
           EVENT_NUMBER: ${{ github.event.number }}
           GITHUB_SHA: ${{ github.sha }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       - name: Build and Push
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
