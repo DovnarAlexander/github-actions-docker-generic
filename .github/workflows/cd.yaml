@@ -3,19 +3,18 @@
 name: CD
 
 on:
-  push:
-  # release:
-  #   types: [prereleased]
-  # workflow_dispatch:
-  #   inputs:
-  #     release:
-  #       description: 'GitHub Release to deploy'
-  #       required: false
-  #       default: ''
-  #     tag:
-  #       description: 'Docker Tag to deploy'
-  #       required: false
-  #       default: 'latest'
+  release:
+    types: [prereleased]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'GitHub Release to deploy'
+        required: false
+        default: ''
+      tag:
+        description: 'Docker Tag to deploy'
+        required: false
+        default: 'latest'
 
 jobs:
   prepare:

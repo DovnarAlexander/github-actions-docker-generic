@@ -3,12 +3,11 @@
 name: CI
 
 on:
+  schedule:
+    - cron: '0 1 * * *' # everyday at 1 AM
+  pull_request:
   push:
-  # schedule:
-  #   - cron: '0 1 * * *' # everyday at 1 AM
-  # pull_request:
-  # push:
-  #   branches: master
+    branches: master
 
 jobs:
   lint:
